@@ -2,10 +2,12 @@
 code test.
 
 #### dependency
+python 3.7
 ```
-sklearm 0.21.0
-matplotlib 3.2.2
-numpy 1.16.6
+sklearm==0.21.0
+pandas==1.0.5
+matplotlib==3.2.2
+numpy==1.16.6
 ```
 ## menu 
 - 01-signal_noising.ipynb
