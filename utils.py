@@ -16,6 +16,28 @@ def xgb_model(epochs, objective, booster, max_depth):
                          verbosity = 1)
     return model
 
+def xgb_simple_test(df, label):
+    
+    X_train, X_test, y_train, y_test = train_test_split(df, label,
+                                                        test_size=0.33, random_state=42)
+
+    max_score = 0
+
+    
+    # model training 
+    model = xgb_model(200, 'reg:squarederror', 'gbtree', 8) # epochs, objective, booster, max_depth
+    model.fit(X_train, y_train,
+            eval_set=[(X_train, y_train), (X_test, y_test)],
+            eval_metric='mae', verbose = False)
+
+    # model predict and evaulate.
+    y_pred = model.predict(X_test)
+    y_true = y_test
+    
+
+
+    return eva_metric(y_true, y_pred)
+
 def get_data(path):
     df = pd.read_excel(path)
     df2 = df.rename({df.columns[0]: 'dirt', df.columns[-1]: 'cost'}, axis=1)
