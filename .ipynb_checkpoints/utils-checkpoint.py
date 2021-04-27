@@ -50,12 +50,14 @@ def eva_metric(y_true, y_pred):
        'r2_score': r2_score}
     
     r2 = []
+    eval_res = {}
     for i in dic.keys():
         score = dic[i](y_true, y_pred)
 #         print(i, score)
+        eval_res[i] = score
         if i == 'r2_score':
             r2.append(score)
-    return r2
+    return eval_res
 
 # X_train, X_test, y_train, y_test = train_test_split(df, label, test_size=0.33, random_state=42)
 
@@ -89,16 +91,16 @@ def xgb_grid_test(df, label):
                 # model predict and evaulate.
                 y_pred = model.predict(X_test)
                 y_true = y_test
-                r2 = eva_metric(y_true, y_pred)
+                r2 = eva_metric(y_true, y_pred)['r2_score']
 
                 record_dic['obj'].append(a)
                 record_dic['booster'].append(b)
                 record_dic['max_depth'].append(c)
-                record_dic['score'].append(r2[0])
+                record_dic['score'].append(r2)
 
                 # record best score
-                if r2[0] > max_score:
-                    max_score = r2[0]
+                if r2 > max_score:
+                    max_score = r2
                     best_lis.append(a+' '+b+' '+'max_depth ='+str(c))
 
                 results = model.evals_result()
@@ -133,5 +135,5 @@ def svm_grid_test(df, label):
         y_pred = model.predict(X_test)
         r2 = eva_metric(y_true, y_pred)
 #         print(i, r2)
-        lis.append([i, r2[0]])
+        lis.append([i, r2['r2_score']])
     return lis
