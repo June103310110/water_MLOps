@@ -8,6 +8,7 @@ sklearm==0.21.0
 pandas==1.0.5
 matplotlib==3.2.2
 numpy==1.16.6
+xgboost==0.90
 ```
 ## menu 
 - 01-signal_noising.ipynb
